@@ -1,10 +1,22 @@
 import ReactSlider from 'react-slider';
 import './Thermometer.css';
 import { useClimateContext } from '../../context/ClimateContext';
+import { useEffect } from 'react';
+import { useCallback } from 'react';
 
 function Thermometer() {
-  const {temperature, desiredTemperature, setDesiredTemperature } = useClimateContext();
+  const {temperature, setTemperature, desiredTemperature, setDesiredTemperature } = useClimateContext();
 
+  const incrementTemperature = useCallback((desiredTemperature)=>{
+    if (temperature < desiredTemperature ){
+      setTemperature(old => old + 1)
+    }
+  }, [temperature, setTemperature])
+
+  useEffect( () => {
+    const timer = setInterval(() => incrementTemperature(desiredTemperature), 1000)
+    return () => clearInterval(timer)
+  }, [desiredTemperature, incrementTemperature])
 
   return (
     <section>

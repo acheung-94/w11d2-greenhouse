@@ -9,17 +9,17 @@ function Hygrometer() {
 
   const incrementHumidity = useCallback((desiredHumidity) => {
 
-    if(humidity < desiredHumidity) {
+    if(humidity < desiredHumidity - 1) {
+      console.log(humidity < desiredHumidity -1);
       setHumidity(old => old+2)
     }
-    console.log(humidity);
+    
   }, [humidity, setHumidity]) 
 
   useEffect(() => {
-    console.log(desiredHumidity)
-    const timer = setInterval( () => setHumidity(old => old+2), 1000)
+    const timer = setInterval( () => incrementHumidity(desiredHumidity), 1000)
     return () => clearInterval(timer);
-  } , [desiredHumidity])
+  } , [desiredHumidity, incrementHumidity])
 
   return (
     <section>
